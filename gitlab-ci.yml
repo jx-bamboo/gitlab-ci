@@ -1,0 +1,27 @@
+variables:
+  TEST_VAR: "All jobs can use this variable's value"
+  TEST_TEST: "**************************************"
+
+stages:
+  - deploy
+
+cache:
+  paths:
+    - node_modules/
+
+deployJob:
+  stage: deploy
+  script:
+    - echo "$TEST_TEST"
+    - echo "$TEST_VAR"
+    - sleep 1
+    - sudo rm -r /var/www/test_cicd/dist.bac
+    - sudo mv /var/www/test_cicd/dist /var/www/test_cicd/dist.bac
+    - sudo mv /home/gitlab-runner/builds/ME_NC4hy/0/dbc/test_cicd/dist /var/www/test_cicd/
+    - echo "--------success 1---------"
+    - sudo rm -r /home/gitlab-runner/builds
+    - echo "--------success 2---------"
+  tags:
+    - test_cicd
+  only:
+    - master
